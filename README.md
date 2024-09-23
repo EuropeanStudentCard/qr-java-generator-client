@@ -1,44 +1,95 @@
-# ESCN Validator Client
+# QRClientFactory
 
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-`EscnClientFactory` is a Java client designed to interact with the European Student Card Router application (ESC-R) API.
-It provides functionality to generate ESCN numbers, either as single or in a list using a RESTful API endpoint. This class is part of a larger library aimed at simplifying integration with ESC services.. The ESCNs are UUIDs formatted according to the RFC 4122 standard. 
+`QRClientFactory` is a Java client designed to interact with the European Student Card Router application (ESC-R) API. It provides functionality to retrieve QR codes for European Student Card Numbers (ESCNs), supporting different orientations, color schemes, and sizes.
 
 ## Usage
-### Creating an Instance of EscnClientFactory
-You can create an instance of EscnClientFactory with the default host or a specified host.
+
+### Creating an Instance of QRClientFactory
+You can create an instance of `QRClientFactory` with either the default host or a custom host URL.
 
 #### Default Host
 ```java
-EscnClientFactory factory = EscnClientFactory.create();
-```
-#### Specified Host
-```java
-EscnClientFactory factory = EscnClientFactory.create("http://your-custom-host.com");
-```
-### Generating a Single ESCN
-To generate a single ESCN, use the getEscn method with the required parameters:
-
-```java
-  EscnClientFactory clientFactory = EscnClientFactory.create();
-  String escn = clientFactory.getEscn(123, "participantCode");
+QRClientFactory factory = QRClientFactory.create();
 ```
 
-### Generating Multiple ESCNs
-To generate a list of ESCNs, use the getEscn method with additional parameters:
+#### Custom Host
+```java
+QRClientFactory factory = QRClientFactory.create("http://your-custom-host.com");
+```
+
+### Retrieving a QR Code for a Specific ESCN
+To retrieve a QR code for a European Student Card Number (ESCN), use the `getQRCode` method. This method requires the ESCN, orientation, colors, and size of the QR code.
+
+#### Example Request:
+```java
+QRClientFactory factory = QRClientFactory.create();
+String escn = "your-escn-number";
+
+String qrCodeSvg = factory.getQRCode(
+    escn,                          // The ESCN number
+    QRClientFactory.Orientation.VERTICAL,  // Orientation: VERTICAL or HORIZONTAL
+    QRClientFactory.Colours.NORMAL,        // Colours: NORMAL or INVERTED
+    QRClientFactory.Size.M                 // Size: XS, S, or M
+);
+```
+
+The `getQRCode` method will return the QR code as an SVG string, which can be directly used or saved.
+
+### Parameters
+
+- `escn`: The European Student Card Number (ESCN) for which the QR code is generated.
+- `orientation`: Defines the orientation of the QR code. Available values:
+    - `VERTICAL`
+    - `HORIZONTAL`
+
+- `colours`: Defines the color scheme of the QR code. Available values:
+    - `NORMAL` (Standard colors)
+    - `INVERTED` (Inverted color scheme)
+
+- `size`: Defines the size of the QR code. Available values:
+    - `XS` (41x41px)
+    - `S` (61.5x61.5px)
+    - `M` (164x164px)
+
+### Handling Errors
+If the request fails due to I/O or URL-related issues, an `IOException` or `URISyntaxException` will be thrown, allowing you to handle the error accordingly.
 
 ```java
-  EscnClientFactory clientFactory = EscnClientFactory.create();
-  List<String> escns = clientFactory.getEscn(123, "participantCode", 5);
+try {
+    String qrCodeSvg = factory.getQRCode(escn, Orientation.HORIZONTAL, Colours.INVERTED, Size.S);
+} catch (IOException | URISyntaxException e) {
+    System.err.println("Error retrieving QR code: " + e.getMessage());
+}
 ```
+
+## Enum Types
+
+The `QRClientFactory` class uses the following enum types:
+
+### `Orientation`
+Defines the orientation of the QR code:
+- `VERTICAL`
+- `HORIZONTAL`
+
+### `Colours`
+Defines the color scheme of the QR code:
+- `NORMAL`
+- `INVERTED`
+
+### `Size`
+Defines the size of the QR code:~~~~
+- `XS` - 41x41px
+- `S`  - 61.5x61.5px
+- `M`  - 164x164px
 
 ## Class Documentation
-### EscnClientFactory
-Factory class for creating instances of ESCN Client.
 
-##### Methods
-* `create()`: Creates a new instance of EscnClientFactory with the default host URL.
-* `create(String host)`: Creates a new instance of EscnClientFactory with a specified host URL.
-* `String getEscn(Integer prefix, String pic)`: Generates a single ESCN using the provided prefix and participant identification code.
-* `List<String> getEscn(Integer prefix, String pic, Integer numberOfESCN)`: Generates a list of ESCNs based on the provided parameters.
+### `QRClientFactory`
+A factory class for interacting with the European Student Card Router API.
+
+#### Methods:
+- `static QRClientFactory create()`: Creates a new instance of `QRClientFactory` with the default host URL.
+- `static QRClientFactory create(String host)`: Creates a new instance of `QRClientFactory` with a custom host URL.
+- `String getQRCode(String escn, Orientation orientation, Colours colours, Size size)`: Retrieves the QR code as an SVG string based on the provided parameters.
