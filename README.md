@@ -79,7 +79,7 @@ Defines the color scheme of the QR code:
 - `INVERTED`
 
 ### `Size`
-Defines the size of the QR code:~~~~
+Defines the size of the QR code:
 - `XS` - 41x41px
 - `S`  - 61.5x61.5px
 - `M`  - 164x164px
