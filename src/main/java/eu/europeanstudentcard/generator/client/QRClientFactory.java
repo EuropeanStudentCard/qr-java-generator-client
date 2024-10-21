@@ -48,7 +48,7 @@ public class QRClientFactory {
         QRRestRequestBuilder builder = new QRRestRequestBuilder("GET", host.concat("/api/v2/cards/" + escn + "/qr"));
 
         // Add query parameters
-        builder.addHeaders(null, ContentType.APPLICATION_SVG_XML)
+        builder.addHeaders(null, ContentType.IMAGE_SVG)
                 .addQueryParam("orientation", orientation.toString())
                 .addQueryParam("colours", colours.toString())
                 .addQueryParam("size", size.toString());
