@@ -6,15 +6,15 @@
 
     <groupId>eu.europeanstudentcard</groupId>
     <artifactId>qr-client</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <packaging>jar</packaging>
 
     <name>qr-client</name>
     <description>ESCN QR Client is used to generate a QR code to access the information of an European Student Card for the "european student card" project by calling esc-router qr generation endpoint.</description>
-    <url>http://europeanstudentcard.eu</url>
+    <url>https://github.com/EuropeanStudentCard/qr-java-generator-client</url>
     <organization>
         <name>European Student Card</name>
-        <url>http://europeanstudentcard.eu</url>
+        <url>https://github.com/EuropeanStudentCard</url>
     </organization>
     <licenses>
         <license>
